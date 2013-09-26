@@ -1,0 +1,11 @@
+﻿<Window x:Class="EvernoteUSBSyncWPF.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Evernote-USB Synchronizer" Height="350" Width="525" ResizeMode="NoResize" WindowStartupLocation="CenterScreen">
+    <Grid>
+        <Button Content="Sync To USB" HorizontalAlignment="Left" Margin="35,94,0,0" VerticalAlignment="Top" Width="175" Height="68" Click="Button_Sync_To_Usb_Click"/>
+        <Button Content="Sync To Local" HorizontalAlignment="Left" Margin="296,94,0,0" VerticalAlignment="Top" Width="176" Height="68" Click="Button_Sync_To_Local_Click"/>
+        <Label Content="                           Evernote-USB Synchronizer" HorizontalAlignment="Left" Margin="35,37,0,0" VerticalAlignment="Top" Width="446" FontSize="16" FontWeight="Bold"/>
+
+    </Grid>
+</Window>
