@@ -24,48 +24,72 @@ namespace EvernoteUSBSyncWPF
     {
         public MainWindow()
         {
-            InitializeComponent();
+           InitializeComponent();
         }
 
         // Sync to USB
         private void Button_Sync_To_Usb_Click(object sender, RoutedEventArgs e)
         {
-            string message;
+            Button button = (Button) sender;
+            button.IsEnabled = false;
+            string message = string.Empty;
+            var localFolderReader = new EvernoteReader();
+            var usbWriter = new EvernoteWriter();
+
+            MessageBoxResult dialogResult = MessageBox.Show("This will synchronize evernote local folder database files with USB.\n\n Are you sure to sync with USB?", "Confirm Box",
+                                                        MessageBoxButton.YesNo);
+            if (dialogResult == MessageBoxResult.No)
+            {
+                button.IsEnabled = true;
+                return;
+            }
+
             try
             {
-                var localFolderReader = new EvernoteReader();
                 var localfiles = localFolderReader.ReadFromLocalEvernoteFolder();
-                var usbWriter = new EvernoteWriter();
+
                 message = usbWriter.WriteToUSB(localfiles)
-                              ? "Successfully Synchronized with USB"
-                              : "Error while synchronizing with USB";
+                                ? "Successfully Synchronized with USB"
+                                : "Error while synchronizing with USB";
             }
             catch (Exception ex)
             {
                 message = ex.Message;
-
             }
+            
             MessageBox.Show(message);
+            button.IsEnabled = true;
         }
 
         // Sync to Local
         private void Button_Sync_To_Local_Click(object sender, RoutedEventArgs e)
         {
-            string message;
+            Button button = (Button)sender;
+            button.IsEnabled = false;
+            string message = string.Empty;
+            var usbReader = new EvernoteReader();
+            var localFolderWriter = new EvernoteWriter();
+            MessageBoxResult dialogResult = MessageBox.Show("This will synchronize USB with evernote local folder database files.\n\nAre you sure to sync with Evernote Local Database folder?",
+                                                      "Confirm Box", MessageBoxButton.YesNo);
+            if (dialogResult == MessageBoxResult.No)
+            {
+                button.IsEnabled = true;
+                return;
+            }
             try
             {
-                var usbReader = new EvernoteReader();
                 var localfiles = usbReader.ReadFromUSB();
-
-                var localFolderWriter = new EvernoteWriter();
                 message = localFolderWriter.WriteToEvernoteLocalFolder(localfiles)
-                              ? "Successfully Synchronized with USB"
-                              : "Error while synchronizing with USB";
+                                ? "Successfully Synchronized with USB"
+                                : "Error while synchronizing with USB";
             }
             catch (Exception ex)
             {
                 message = ex.Message;
             }
+            
+            MessageBox.Show(message);
+            button.IsEnabled = true;
         }
     }
 }

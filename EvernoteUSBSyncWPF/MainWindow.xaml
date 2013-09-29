@@ -6,6 +6,7 @@
         <Button Content="Sync To USB" HorizontalAlignment="Left" Margin="35,94,0,0" VerticalAlignment="Top" Width="175" Height="68" Click="Button_Sync_To_Usb_Click"/>
         <Button Content="Sync To Local" HorizontalAlignment="Left" Margin="296,94,0,0" VerticalAlignment="Top" Width="176" Height="68" Click="Button_Sync_To_Local_Click"/>
         <Label Content="                           Evernote-USB Synchronizer" HorizontalAlignment="Left" Margin="35,37,0,0" VerticalAlignment="Top" Width="446" FontSize="16" FontWeight="Bold"/>
+        <Label Content="Akash Inc. © 2013" Name="copyright" HorizontalAlignment="Left" Margin="35,228,0,0" VerticalAlignment="Top" Width="336" />
 
     </Grid>
 </Window>
