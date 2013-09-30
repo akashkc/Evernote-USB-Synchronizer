@@ -12,7 +12,10 @@ namespace EvernoteUSBSyncLib.Utils
             return files.Select(x => new Item
                 {
                     FileName = x.Name,
-                    Location = x.FullName
+                    Location = x.FullName,
+                    Size = x.Length,
+                    CreationDate = x.CreationTime,
+                    LastModifiedDate = x.LastWriteTime
                 }).ToList();
         }
     }

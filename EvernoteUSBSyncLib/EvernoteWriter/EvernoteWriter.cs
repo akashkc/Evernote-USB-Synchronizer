@@ -1,9 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using EvernoteUSBSyncLib.CustomExceptions;
 using EvernoteUSBSyncLib.Models;
 using System.IO;
+using EvernoteUSBSyncLib.Utils;
 
 namespace EvernoteUSBSyncLib.EvernoteWriter
 {
@@ -13,6 +13,7 @@ namespace EvernoteUSBSyncLib.EvernoteWriter
         {
             if (string.IsNullOrEmpty(usbFolder))
             {
+                // Get removable drive
                 var drive =
                     DriveInfo.GetDrives()
                              .Where(d => d.IsReady && d.DriveType == DriveType.Removable)
@@ -28,16 +29,9 @@ namespace EvernoteUSBSyncLib.EvernoteWriter
             var directory = new DirectoryInfo(usbFolder);
             if (!directory.Exists) directory.Create();
 
-            try
+            foreach (var item in items)
             {
-                foreach (Item item in items)
-                {
-                    File.Copy(item.Location, Path.Combine(directory.FullName, item.FileName), true);
-                }
-            }
-            catch (Exception ex)
-            {
-                throw ex;
+                CopyItem(item.Location, Path.Combine(directory.FullName, item.FileName));
             }
             return true;
         }
@@ -59,17 +53,23 @@ namespace EvernoteUSBSyncLib.EvernoteWriter
             {
                 foreach(Item item in items)
                 {
-                    try
-                    {
-                        File.Copy(item.Location, Path.Combine(evernoteLocalFolder, item.FileName), true);
-                    }
-                    catch(Exception ex)
-                    {
-                        return false;
-                    }
+                    CopyItem(item.Location, Path.Combine(evernoteLocalFolder, item.FileName));
                 }
             }
             return true;
+        }
+
+        /// <summary>
+        /// Copy source file to target file location.
+        /// </summary>
+        /// <param name="sourceFile">Source file location</param>
+        /// <param name="targetFile">Target file locaton</param>
+        private void CopyItem(string sourceFile,string targetFile)
+        {
+            if (FileUtils.IsEvernoteTargetFileMostUpdated(sourceFile, targetFile))
+                throw new UpdatedFileAlreadyExist();
+
+            File.Copy(sourceFile, targetFile, true);
         }
     }
 }
