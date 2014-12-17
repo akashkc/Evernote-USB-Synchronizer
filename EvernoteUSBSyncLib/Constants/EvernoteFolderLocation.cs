@@ -6,7 +6,11 @@ using System.Threading.Tasks;
 using System.IO;
 
 namespace EvernoteUSBSyncLib.Constants
-{
+{ 
+
+	/// <summary>
+	/// Constant value for Evernote folder location
+	/// </summary>
     public class EvernoteFolderLocation
     {
         public static string LocalAppLocation
